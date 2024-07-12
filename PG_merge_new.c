@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-// 合併函數，用於合併兩個子陣列
+// 合併函數
 long long merge(char (*arr)[4], int left, int mid, int right) {
     int i, j, k;
-    int n1 = mid - left + 1;  // 左子陣列的大小
-    int n2 = right - mid;     // 右子陣列的大小
+    int n1 = mid - left + 1;  // 左陣列的大小
+    int n2 = right - mid;     // 右陣列的大小
 
-    char L[n1][4], R[n2][4];  // 用於暫存左右子陣列的臨時陣列
+    char L[n1][4], R[n2][4];  // 暫存左右陣列
 
     // 將數據複製到臨時陣列 L[] 和 R[] 中
     for (i = 0; i < n1; i++)
@@ -19,7 +19,7 @@ long long merge(char (*arr)[4], int left, int mid, int right) {
     i = 0;
     j = 0;
     k = left;
-    long long count = 0;  // 變數用於計算交換次數
+    long long count = 0;  // 交換次數
 
     // 合併臨時陣列回到 arr[left...right]
     while (i < n1 && j < n2) {
@@ -48,7 +48,7 @@ long long merge(char (*arr)[4], int left, int mid, int right) {
         k++;
     }
 
-    return count;  // 返回總交換次數
+    return count;  // return 交換次數
 }
 
 // 合併排序函數
@@ -56,26 +56,26 @@ long long mergeSort(char (*arr)[4], int left, int right) {
     long long count = 0;
     if (left < right) {
         int mid = left + (right - left) / 2;  // 找到中間點
-        count += mergeSort(arr, left, mid);    // 遞歸地對左子陣列進行排序
-        count += mergeSort(arr, mid + 1, right);  // 遞歸地對右子陣列進行排序
-        count += merge(arr, left, mid, right);    // 合併已排序的子陣列
+        count += mergeSort(arr, left, mid);    // 用遞迴對左陣列排序
+        count += mergeSort(arr, mid + 1, right);  // 用遞迴對右陣列排序
+        count += merge(arr, left, mid, right);    // 合併已排序陣列(左 & 右)
     }
-    return count;  // 返回總交換次數
+    return count;  // return 總交換次數
 }
 
 int main() {
     int num;
     scanf("%d", &num);
-    char (*license)[4] = malloc(num * sizeof(char[4]));  // 分配存儲字串陣列的內存
+    char (*license)[4] = malloc(num * sizeof(char[4]));  
     for (int i = 0; i < num; i++) {
-        scanf("%3s", license[i]);  // 讀取輸入字串
+        scanf("%3s", license[i]);  
     }
 
-    long long ans = mergeSort(license, 0, num - 1);  // 執行合併排序並獲取總交換次數
+    long long ans = mergeSort(license, 0, num - 1);  // 執行合併排序
 
-    free(license);  // 釋放已分配的內存
+    free(license);  
 
-    printf("%lld\n", ans);  // 印出總交換次數
+    printf("%lld\n", ans);  // 印出交換次數
 
     return 0;
 }
